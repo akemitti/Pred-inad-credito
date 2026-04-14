@@ -1,2 +1,2 @@
 # Pred-inad-credito
-Projeto que investiga o poder preditivo de variáveis de crédito e análise de sentimento das comunicacoes do banco central
+Projeto de TCC sobre predição da inadimplência de crédito no Brasil usando séries temporais (dados ao longo do tempo), machine learning (aprendizado de máquina) e sentimento extraído de documentos do Banco Central.
