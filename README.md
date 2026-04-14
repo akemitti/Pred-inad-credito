@@ -59,27 +59,14 @@ O projeto foi desenvolvido em etapas, organizadas em notebooks:
 
 ## Estrutura do repositório
 
-```bash
-Pred-inad-credito/
-│
-├── README.md
-│
-├── COPOM.zip
-├── Estatísticas monetárias e de crédito.zip
-│
-├── base_relatorios.csv
-├── base_series.csv
-├── base_sentimento_copom.csv
-├── base_sentimentos.csv
-├── base_sentimentos_copom_sem_mistral.csv
-│
-├── notebook01.ipynb
-├── notebook02.ipynb
-├── notebook03.ipynb
-├── notebook04_completo.ipynb
-├── notebook04_sem_mistral.ipynb
-├── notebook04_mistral_v2.ipynb
-├── notebook05.ipynb
-│
-├── notebook06.ipynb   # planejado
-└── notebook07.ipynb   # planejado
+| Notebook | Objetivo | Status |
+|---|---|---|
+| [`notebook01.ipynb`](./notebook01.ipynb) | Construção e preparação inicial da base de dados. | ✅ Concluído |
+| [`notebook02.ipynb`](./notebook02.ipynb) | Modelo base de predição da inadimplência. | ✅ Concluído |
+| [`notebook03.ipynb`](./notebook03.ipynb) | Análises auxiliares e exploração dos dados. | ✅ Concluído |
+| [`notebook04_completo.ipynb`](./notebook04_completo.ipynb) | Pipeline (fluxo de processamento) completo de análise de sentimento. | ✅ Concluído |
+| [`notebook04_sem_mistral.ipynb`](./notebook04_sem_mistral.ipynb) | Versão da análise de sentimento sem o modelo Mistral. | ✅ Concluído |
+| [`notebook04_mistral_v2.ipynb`](./notebook04_mistral_v2.ipynb) | Versão específica da análise de sentimento com Mistral. | ✅ Concluído |
+| [`notebook05.ipynb`](./notebook05.ipynb) | Comparação entre os modelos de sentimento e seleção das melhores combinações. | ✅ Concluído |
+| `notebook06.ipynb` | Integração dos modelos escolhidos à predição da inadimplência. | 🚧 Em desenvolvimento |
+| `notebook07.ipynb` | Comparativo entre os resultados do notebook06 e do notebook02. | 📝 Planejado |
