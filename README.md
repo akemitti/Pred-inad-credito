@@ -68,5 +68,4 @@ O projeto foi desenvolvido em etapas, organizadas em notebooks:
 | [`notebook04_sem_mistral.ipynb`](./notebook04_sem_mistral.ipynb) | Versão da análise de sentimento sem o modelo Mistral. | ✅ Concluído |
 | [`notebook04_mistral_v2.ipynb`](./notebook04_mistral_v2.ipynb) | Versão específica da análise de sentimento com Mistral. | ✅ Concluído |
 | [`notebook05.ipynb`](./notebook05.ipynb) | Comparação entre os modelos de sentimento e seleção das melhores combinações. | ✅ Concluído |
-| `notebook06.ipynb` | Integração dos modelos escolhidos à predição da inadimplência. | 🚧 Em desenvolvimento |
-| `notebook07.ipynb` | Comparativo entre os resultados do notebook06 e do notebook02. | 📝 Planejado |
+| `notebook06.ipynb` | Integração dos modelos escolhidos à predição da inadimplência e Comparativo entre os resultados do notebook06 e do notebook02.| ✅ Concluído |
