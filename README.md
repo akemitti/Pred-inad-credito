@@ -1,6 +1,4 @@
-# Pred-inad-credito
 
-Projeto de TCC sobre **predição da inadimplência de crédito no Brasil** com uso de **séries temporais** — dados observados ao longo do tempo —, **machine learning** — aprendizado de máquina — e **análise de sentimento** — classificação do tom dos textos — aplicada a documentos do Banco Central do Brasil.
 
 # Pred-inad-credito
 
