@@ -2,11 +2,15 @@
 
 Projeto de TCC sobre **predição da inadimplência de crédito no Brasil** com uso de **séries temporais** — dados observados ao longo do tempo —, **machine learning** — aprendizado de máquina — e **análise de sentimento** — classificação do tom dos textos — aplicada a documentos do Banco Central do Brasil.
 
+# Pred-inad-credito
+
+Projeto de TCC sobre **predição da inadimplência de crédito no Brasil** com uso de **séries temporais** — dados observados ao longo do tempo —, **modelos estatísticos e de machine learning** — aprendizado de máquina — e **análise de sentimento** — mensuração do tom dos textos — aplicada a documentos oficiais do Banco Central do Brasil.
+
 ## Visão geral
 
 A inadimplência de crédito é uma variável relevante para instituições financeiras, pois impacta precificação, provisão, gestão de risco, concessão de crédito e planejamento estratégico.
 
-Este projeto investiga se, além das variáveis macroeconômicas e de crédito tradicionalmente utilizadas, o **tom de documentos oficiais do Banco Central do Brasil** pode contribuir para melhorar a capacidade preditiva dos modelos de inadimplência.
+Este projeto investiga se, além das variáveis econômicas e de crédito tradicionalmente utilizadas, o **tom de documentos oficiais do Banco Central do Brasil** pode contribuir para melhorar a capacidade preditiva dos modelos de inadimplência.
 
 A proposta combina:
 
@@ -26,7 +30,7 @@ Desenvolver e comparar modelos para **predizer a inadimplência de crédito no B
 
 ## Fontes de dados
 
-O projeto utiliza duas principais fontes de informação:
+O projeto utiliza duas principais fontes de informação.
 
 ### 1. Séries temporais econômicas e de crédito
 
@@ -58,8 +62,8 @@ O projeto foi desenvolvido em etapas, organizadas em notebooks.
    - Consolidação das variáveis utilizadas na modelagem.
 
 2. **Modelo base de predição**
-   - Construção de modelos para previsão da inadimplência;
-   - Avaliação inicial de desempenho sem variáveis textuais.
+   - Construção de modelos para previsão da inadimplência sem variáveis textuais;
+   - Avaliação inicial de desempenho para servir como referência comparativa.
 
 3. **Coleta e preparação textual**
    - Extração e tratamento dos textos dos documentos do Banco Central;
@@ -78,10 +82,13 @@ O projeto foi desenvolvido em etapas, organizadas em notebooks.
    - Testes com diferentes defasagens temporais, ou **lags** — deslocamentos no tempo;
    - Comparação entre os resultados das Atas do Copom e dos Relatórios de Estatísticas.
 
-6. **Integração ao modelo preditivo**
-   - Inclusão dos melhores scores de sentimento no modelo XGBoost;
-   - Comparação entre modelo base e modelos com variáveis textuais;
-   - Avaliação do ganho preditivo por meio de métricas como MAE, RMSE e R².
+6. **Integração ao modelo preditivo e comparação final**
+   - Inclusão dos melhores scores de sentimento nos modelos de previsão;
+   - Comparação entre modelos sem sentimento e modelos com sentimento;
+   - Avaliação do ganho preditivo por meio de métricas como MAE, RMSE, R² e bias;
+   - Consolidação da análise final de desempenho no `notebook06.ipynb`.
+
+> Observação: a etapa originalmente planejada como `notebook07.ipynb`, voltada à consolidação e comparação final dos resultados, foi incorporada ao `notebook06.ipynb`. Por isso, o projeto não depende de um notebook separado para essa etapa.
 
 ## Estrutura do repositório
 
@@ -96,7 +103,7 @@ O projeto foi desenvolvido em etapas, organizadas em notebooks.
 | [`notebook04_mistral_estatisticas.ipynb`](./notebook04_mistral_estatisticas.ipynb) | Análise de sentimento dos Relatórios de Estatísticas Monetárias e de Crédito com o modelo Mistral. | ✅ Concluído |
 | [`notebook04_completo.ipynb`](./notebook04_completo.ipynb) | Consolidação das bases de sentimento do Copom e dos Relatórios de Estatísticas em uma base final unificada. | ✅ Concluído |
 | [`notebook05.ipynb`](./notebook05.ipynb) | Correlação entre sentimentos e inadimplência, comparação por tipo de relatório, seleção dos melhores modelos e respectivos lags. | ✅ Concluído |
-| [`notebook06.ipynb`](./notebook06.ipynb) | Integração dos sentimentos selecionados ao modelo preditivo, comparação com o modelo base e análise do ganho de desempenho. | ✅ Concluído |
+| [`notebook06.ipynb`](./notebook06.ipynb) | Integração dos sentimentos selecionados aos modelos preditivos e consolidação da comparação final com o modelo base. | ✅ Concluído |
 
 ## Organização da etapa de análise de sentimento
 
@@ -104,17 +111,17 @@ A análise de sentimento foi separada por tipo de documento e por abordagem de m
 
 ### Atas do Copom
 
-- `notebook04_sem_mistral_copom.ipynb`: aplica os modelos tradicionais de sentimento.
-- `notebook04_mistral_copom.ipynb`: aplica o modelo Mistral.
-- Os resultados são consolidados no `notebook04_completo.ipynb`.
+- `notebook04_sem_mistral_copom.ipynb`: aplica os modelos tradicionais de sentimento;
+- `notebook04_mistral_copom.ipynb`: aplica o modelo Mistral;
+- os resultados são consolidados no `notebook04_completo.ipynb`.
 
 ### Relatórios de Estatísticas Monetárias e de Crédito
 
-- `notebook04_sem_mistral_estatisticas.ipynb`: aplica os modelos tradicionais de sentimento.
-- `notebook04_mistral_estatisticas.ipynb`: aplica o modelo Mistral.
-- Os resultados também são consolidados no `notebook04_completo.ipynb`.
+- `notebook04_sem_mistral_estatisticas.ipynb`: aplica os modelos tradicionais de sentimento;
+- `notebook04_mistral_estatisticas.ipynb`: aplica o modelo Mistral;
+- os resultados também são consolidados no `notebook04_completo.ipynb`.
 
-## Principais resultados parciais
+## Principais resultados da etapa de sentimento
 
 A etapa de correlação indicou que os sentimentos extraídos das **Atas do Copom** apresentaram maior associação com a inadimplência do que os sentimentos extraídos dos **Relatórios de Estatísticas Monetárias e de Crédito**.
 
@@ -126,23 +133,23 @@ Entre os principais resultados observados:
 
 Esse resultado é coerente com a natureza dos documentos: as Atas do Copom possuem conteúdo mais prospectivo, enquanto os Relatórios de Estatísticas têm caráter mais descritivo.
 
-## Notebook 06 — Integração ao modelo preditivo
+## Notebook 06 — Integração preditiva e comparação final
 
-No `notebook06.ipynb`, os melhores scores de sentimento selecionados no Notebook 05 são incorporados ao modelo XGBoost.
+No `notebook06.ipynb`, os melhores scores de sentimento selecionados no Notebook 05 são incorporados aos modelos de previsão da inadimplência.
 
-A comparação é realizada entre:
+Essa etapa concentra também a consolidação comparativa que havia sido inicialmente planejada para um Notebook 07. Portanto, o `notebook06.ipynb` reúne:
 
-- modelo base com variáveis macroeconômicas;
-- modelo com NLTK/VADER;
-- modelo com Mistral;
-- modelo com média dos modelos de sentimento;
-- modelo com BERT Multilingual.
+- reconstrução dos modelos com variáveis de sentimento;
+- comparação com o modelo base sem sentimento;
+- avaliação do ganho ou perda de desempenho após a inclusão das variáveis textuais;
+- consolidação dos resultados finais do projeto.
 
-As métricas utilizadas incluem:
+A comparação é realizada considerando métricas como:
 
 - **MAE** — erro absoluto médio;
 - **RMSE** — raiz do erro quadrático médio;
-- **R²** — coeficiente de determinação, que indica o grau de explicação do modelo.
+- **R²** — coeficiente de determinação, que indica o grau de explicação do modelo;
+- **bias** — viés médio das previsões, usado para avaliar tendência de superestimação ou subestimação.
 
 ## Tecnologias utilizadas
 
@@ -166,7 +173,7 @@ As métricas utilizadas incluem:
 ✅ Análise de sentimento concluída  
 ✅ Correlação entre sentimento e inadimplência concluída  
 ✅ Integração ao modelo preditivo concluída  
-✅ Comparação entre modelo base e modelos com sentimento concluída  
+✅ Comparação final entre modelo base e modelos com sentimento concluída  
 
 ## Autoria
 
