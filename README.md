@@ -1,172 +1,100 @@
-# Pred-inad-credito
+# Predição da Inadimplência de Crédito com Análise de Sentimento
 
-Projeto de TCC sobre **predição da inadimplência de crédito no Brasil** com uso de **séries temporais** — dados observados ao longo do tempo — e **análise de sentimento** — mensuração do tom dos textos — aplicada a documentos oficiais do Banco Central do Brasil.
+**Trabalho de Conclusão de Curso**  
+Isabella Akemi Farabotti
 
-## Visão geral
-
-A inadimplência de crédito é uma variável relevante para instituições financeiras, pois impacta decisões relacionadas à concessão de crédito, gestão de risco, provisão, precificação e planejamento estratégico.
-
-Este projeto investiga se o **tom de documentos oficiais do Banco Central do Brasil** pode contribuir para melhorar a previsão da inadimplência de crédito no Brasil.
-
-A proposta compara dois tipos de abordagem:
-
-- um modelo base de previsão, construído a partir da própria série histórica de inadimplência;
-- modelos com inclusão de variáveis de sentimento extraídas de documentos do Banco Central.
-
-Dessa forma, o foco principal do trabalho é avaliar se as informações textuais dos documentos oficiais agregam ganho preditivo em relação a um modelo puramente temporal.
-
-## Objetivo
-
-Desenvolver e comparar modelos para **predizer a inadimplência de crédito no Brasil**, avaliando se a inclusão de variáveis derivadas da análise de sentimento de documentos do Banco Central melhora o desempenho da previsão.
-
-## Pergunta de pesquisa
-
-**A análise de sentimento de documentos do Banco Central melhora a predição da inadimplência de crédito no Brasil?**
-
-## Fontes de dados
-
-O projeto utiliza duas principais fontes de informação.
-
-### 1. Série de inadimplência
-
-A série de inadimplência foi obtida a partir do **SGS/BCB** — Sistema Gerenciador de Séries Temporais do Banco Central do Brasil.
-
-Essa série é utilizada como base para a construção do modelo temporal de referência, no qual a previsão da inadimplência é feita a partir do próprio comportamento histórico da variável.
-
-### 2. Documentos textuais do Banco Central
-
-Foram analisados dois tipos de documentos oficiais:
-
-- **Atas do Copom** — documentos com caráter mais prospectivo, voltados a expectativas, riscos, inflação, atividade econômica, crédito e política monetária;
-- **Relatórios de Estatísticas Monetárias e de Crédito** — documentos com caráter mais descritivo, voltados à divulgação de dados e estatísticas do mercado de crédito.
-
-## Metodologia
-
-O projeto foi desenvolvido em etapas, organizadas em notebooks.
-
-### Etapas principais
-
-1. **Construção da base de inadimplência**
-   - Coleta da série de inadimplência no SGS/BCB;
-   - Tratamento e padronização temporal da base;
-   - Construção da variável-alvo de previsão com horizonte de 3 meses.
-
-2. **Modelo base de predição**
-   - Construção de modelos ARIMA para previsão da inadimplência sem variáveis textuais;
-   - Comparação entre especificações alternativas;
-   - Escolha do modelo benchmark com base no RMSE — raiz do erro quadrático médio.
-
-3. **Coleta e preparação textual**
-   - Extração dos textos dos documentos do Banco Central;
-   - Tratamento dos arquivos em PDF;
-   - Organização dos documentos por tipo e data.
-
-4. **Análise de sentimento**
-   - Aplicação de diferentes abordagens de análise de sentimento:
-     - **NLTK/VADER** — método léxico, baseado em dicionário de polaridade;
-     - **TextBlob** — biblioteca simples de processamento de linguagem natural;
-     - **BERT Multilingual** — modelo de linguagem multilíngue;
-     - **FinBERT-PT-BR** — modelo adaptado ao contexto financeiro em português;
-     - **Mistral** — LLM, modelo de linguagem de grande porte.
-
-5. **Preparação dos lags de sentimento**
-   - Consolidação das séries de sentimento;
-   - Criação de defasagens temporais, ou **lags** — deslocamentos no tempo — de até 6 meses;
-   - Construção de uma base completa e auditável, registrando os lags utilizados para cada modelo de sentimento.
-
-6. **Integração ao modelo preditivo**
-   - Inclusão das variáveis de sentimento nos modelos ARIMAX — extensão do ARIMA com variável externa;
-   - Seleção dos melhores lags e modelos com base no RMSE;
-   - Comparação entre o modelo base sem sentimento e os modelos com sentimento.
+---
 
 ## Estrutura do repositório
 
-| Notebook | Objetivo | Status |
+### Notebooks
+
+Os notebooks devem ser executados **na ordem indicada**, pois cada um depende dos arquivos gerados pelo anterior.
+
+| Notebook | Objetivo | Entrada | Saída |
+|---|---|---|---|
+| [`notebook01.ipynb`](./notebook01.ipynb) | Coleta e preparação da série de inadimplência | SGS/BCB | `base_series.csv` |
+| [`notebook02.ipynb`](./notebook02.ipynb) | Modelo base ARIMA sem sentimento | `base_series.csv` | `resultados_sem_sentimento.csv` |
+| [`notebook03.ipynb`](./notebook03.ipynb) | Coleta e extração dos textos do BCB | `COPOM.zip`, `Estatísticas.zip` | `base_relatorios.csv` |
+| [`notebook04.ipynb`](./notebook04.ipynb) | Análise de sentimento — todos os modelos e documentos | `base_relatorios.csv` | `base_sentimentos.csv` |
+| [`notebook05.ipynb`](./notebook05.ipynb) | Preparação dos lags de sentimento | `base_sentimentos.csv` | `base_completa.csv` |
+| [`notebook06.ipynb`](./notebook06.ipynb) | Modelos preditivos com sentimento | `base_completa.csv` | `resultados_com_sentimento.csv` |
+| [`notebook07.ipynb`](./notebook07.ipynb) | Comparativo final baseline vs. sentimento | `resultados_sem_sentimento.csv` + `resultados_com_sentimento.csv` | Tabelas e gráficos finais |
+
+### Arquivos de dados
+
+| Arquivo | Gerado por | Descrição |
 |---|---|---|
-| [`notebook01.ipynb`](./notebook01.ipynb) | Coleta, organização e preparação da série de inadimplência. | ✅ Concluído |
-| [`notebook02.ipynb`](./notebook02.ipynb) | Construção do modelo base de predição da inadimplência sem variáveis de sentimento. | ✅ Concluído |
-| [`notebook03.ipynb`](./notebook03.ipynb) | Coleta, extração e preparação dos documentos textuais do Banco Central. | ✅ Concluído |
-| [`notebook04_sem_mistral_copom.ipynb`](./notebook04_sem_mistral_copom.ipynb) | Análise de sentimento das Atas do Copom com modelos tradicionais, sem Mistral. | ✅ Concluído |
-| [`notebook04_mistral_copom.ipynb`](./notebook04_mistral_copom.ipynb) | Análise de sentimento das Atas do Copom com o modelo Mistral. | ✅ Concluído |
-| [`notebook04_sem_mistral_estatisticas.ipynb`](./notebook04_sem_mistral_estatisticas.ipynb) | Análise de sentimento dos Relatórios de Estatísticas Monetárias e de Crédito com modelos tradicionais, sem Mistral. | ✅ Concluído |
-| [`notebook04_mistral_estatisticas.ipynb`](./notebook04_mistral_estatisticas.ipynb) | Análise de sentimento dos Relatórios de Estatísticas Monetárias e de Crédito com o modelo Mistral. | ✅ Concluído |
-| [`notebook04_completo.ipynb`](./notebook04_completo.ipynb) | Consolidação das bases de sentimento do Copom e dos Relatórios de Estatísticas em uma base final unificada. | ✅ Concluído |
-| [`notebook05.ipynb`](./notebook05.ipynb) | Preparação da base completa com os lags de sentimento e análise das combinações candidatas para a modelagem. | ✅ Concluído |
-| [`notebook06.ipynb`](./notebook06.ipynb) | Integração das variáveis de sentimento ao modelo ARIMAX e comparação final com o modelo base. | ✅ Concluído |
+| [`base_series.csv`](./base_series.csv) | Notebook 01 | Série histórica de inadimplência com lags |
+| [`base_relatorios.csv`](./base_relatorios.csv) | Notebook 03 | Textos dos documentos do BCB organizados por tipo e data |
+| [`base_sentimentos.csv`](./base_sentimentos.csv) | Notebook 04 | Scores de sentimento por documento, modelo e data |
+| [`base_completa.csv`](./base_completa.csv) | Notebook 05 | Base unificada com inadimplência, lags e scores de sentimento |
+| [`resultados_sem_sentimento.csv`](./resultados_sem_sentimento.csv) | Notebook 02 | Métricas dos modelos baseline (ARIMA, SVR, XGBoost) |
+| [`resultados_com_sentimento.csv`](./resultados_com_sentimento.csv) | Notebook 06 | Métricas dos modelos com sentimento — top 3 por família |
+| [`COPOM.zip`](./COPOM.zip) | — | PDFs das Atas do Copom |
+| [`Estatísticas monetárias e de crédito.zip`](./Estatísticas%20monetárias%20e%20de%20crédito.zip) | — | PDFs dos Relatórios de Estatísticas |
 
-## Organização da etapa de análise de sentimento
+### Ordem de execução
 
-A análise de sentimento foi separada por tipo de documento e por abordagem de modelagem.
+```
+notebook01 → notebook02
+           → notebook03 → notebook04 → notebook05 → notebook06 → notebook07
+```
 
-### Atas do Copom
+---
 
-- `notebook04_sem_mistral_copom.ipynb`: aplica os modelos tradicionais de sentimento;
-- `notebook04_mistral_copom.ipynb`: aplica o modelo Mistral;
-- os resultados são consolidados no `notebook04_completo.ipynb`.
+## Como reproduzir os resultados
 
-### Relatórios de Estatísticas Monetárias e de Crédito
+### Pré-requisitos
 
-- `notebook04_sem_mistral_estatisticas.ipynb`: aplica os modelos tradicionais de sentimento;
-- `notebook04_mistral_estatisticas.ipynb`: aplica o modelo Mistral;
-- os resultados também são consolidados no `notebook04_completo.ipynb`.
+- Python 3.10 ou superior
+- As dependências podem ser instaladas via `pip` na primeira célula de cada notebook:
 
-## Notebook 05 — Preparação dos lags de sentimento
+```bash
+pip install pandas numpy matplotlib statsmodels scikit-learn xgboost-cpu
+```
 
-O `notebook05.ipynb` organiza a base de sentimentos para uso na modelagem preditiva.
+Para os modelos de sentimento baseados em Transformers (BERT, FinBERT), instale adicionalmente:
 
-Nesta etapa, são criados lags de até 6 meses para cada combinação de:
+```bash
+pip install transformers torch
+```
 
-- tipo de documento;
-- modelo de sentimento;
-- defasagem temporal.
+O modelo Mistral requer a instalação do **Ollama** com o modelo `mistral` disponível localmente. Consulte a documentação em [ollama.com](https://ollama.com).
 
-O objetivo é deixar a base completa, auditável e pronta para o teste preditivo no Notebook 06.
+### Ambiente recomendado
 
-## Notebook 06 — Integração preditiva e comparação final
+Os notebooks foram desenvolvidos e testados no **Google Colab** e no **GitHub Codespaces**. Qualquer ambiente com Python 3.10+ e acesso ao sistema de arquivos local é compatível.
 
-No `notebook06.ipynb`, as variáveis de sentimento são incorporadas aos modelos de previsão por meio de modelos ARIMAX.
+### Atalho: pular a análise de sentimento
 
-A comparação é feita entre:
+Os arquivos `base_sentimentos.csv` e `base_completa.csv` já estão disponíveis no repositório. Caso não queira reexecutar o Notebook 04 — que requer Ollama/Mistral e modelos Transformer —, é possível iniciar diretamente pelo **Notebook 05**, usando os arquivos pré-gerados.
 
-- o modelo base ARIMA, que utiliza apenas a série histórica de inadimplência;
-- os modelos ARIMAX, que adicionam uma variável de sentimento como variável externa.
+Da mesma forma, os arquivos `resultados_sem_sentimento.csv` e `resultados_com_sentimento.csv` permitem executar o **Notebook 07** diretamente, sem reexecutar os modelos preditivos.
 
-A avaliação é realizada principalmente por meio do **RMSE** — raiz do erro quadrático médio —, com o objetivo de verificar se a inclusão das variáveis de sentimento reduz o erro de previsão.
+---
 
 ## Principais resultados
 
-O modelo base ARIMA(2,1,4), com correção de bias, apresentou o melhor desempenho entre as especificações testadas, com RMSE de aproximadamente **0,1841**.
+O modelo base **ARIMA(2,1,4) com correção de bias** apresentou RMSE de **0,0973** no conjunto de teste.
 
-Entre os modelos com sentimento, o melhor resultado foi obtido pelo modelo **ARIMAX com FinBERT aplicado aos Relatórios de Estatísticas Monetárias e de Crédito no lag 1**, com RMSE de aproximadamente **0,1868**.
+Entre os modelos com sentimento, o melhor resultado foi obtido pelo **ARIMAX com Mistral aplicado às Atas do Copom**, com RMSE de **0,0852** — redução de aproximadamente **12,4%** em relação ao baseline.
 
-Apesar de as variáveis de sentimento acompanharem razoavelmente a trajetória da inadimplência, elas não reduziram o erro de previsão em relação ao modelo base.
+A família ARIMAX foi a única que apresentou ganho preditivo consistente com a inclusão de sentimento. SVR e XGBoost não melhoraram em relação aos seus respectivos baselines no período analisado.
 
-Assim, a principal conclusão do exercício é que o sentimento extraído dos documentos do Banco Central possui valor interpretativo, mas, na especificação testada, não apresentou ganho preditivo em relação ao modelo puramente temporal.
+A principal conclusão é que o sentimento extraído dos documentos do Banco Central **possui valor preditivo para a inadimplência**, especialmente quando incorporado via ARIMAX às Atas do Copom, que têm caráter prospectivo e tendem a antecipar movimentos da política monetária.
+
+---
 
 ## Tecnologias utilizadas
 
-- Python;
-- Pandas;
-- NumPy;
-- Matplotlib;
-- Statsmodels;
-- NLTK;
-- TextBlob;
-- Transformers;
-- Ollama/Mistral;
-- Google Colab;
-- GitHub Codespaces.
-
-## Status do projeto
-
-✅ Coleta e preparação da série de inadimplência concluída  
-✅ Coleta e preparação dos documentos textuais concluída  
-✅ Análise de sentimento concluída  
-✅ Construção dos lags de sentimento concluída  
-✅ Modelo base ARIMA concluído  
-✅ Modelos ARIMAX com sentimento concluídos  
-✅ Comparação final entre modelo base e modelos com sentimento concluída  
-
-## Autoria
-
-Projeto desenvolvido por **Isabella Akemi Farabotti** como parte do Trabalho de Conclusão de Curso.
+- **Python** — linguagem principal
+- **Pandas / NumPy** — manipulação e computação numérica
+- **Matplotlib** — visualizações
+- **Statsmodels** — modelos ARIMA e ARIMAX
+- **Scikit-learn** — SVR e pré-processamento
+- **XGBoost** — modelo de *gradient boosting*
+- **NLTK / TextBlob** — análise de sentimento léxica
+- **Transformers (Hugging Face)** — BERT Multilingual e FinBERT-PT-BR
+- **Ollama / Mistral** — LLM para análise de sentimento
+- **Google Colab / GitHub Codespaces** — ambientes de execução
